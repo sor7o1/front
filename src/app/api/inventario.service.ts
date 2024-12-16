@@ -27,7 +27,7 @@ export class InventarioService {
   ) {}
 
   saveInventario(header, data): Observable<any> {
-    let url = this.apiUrl + "createInventario";
+    let url = this.apiUrl+'inventario/' + "createInventario";
     let body = {
       nombre: header["nombre"],
       descripcion: header["descripcion"],
@@ -39,7 +39,7 @@ export class InventarioService {
     return this.http.post(url, body, this.httpOptions);
   }
   getInventariosByCompania(): Observable<any> {
-    let apiUrl = this.apiUrl + "getInventarioByCompany";
+    let apiUrl = this.apiUrl+'inventario/' + "getInventarioByCompany";
     let id = this.localStorage.getItem("idCompania");
     return this.http.post(`${apiUrl}/${id}`, { body: null }, this.httpOptions);
   }
@@ -48,7 +48,7 @@ export class InventarioService {
       header: header,
       detalle: detalle,
     };
-    let apiUrl = this.apiUrl + "updateInventario";
+    let apiUrl = this.apiUrl+'inventario/' + "updateInventario";
     return this.http.put(apiUrl, body, this.httpOptions);
   }
   deleteInventario(row) {

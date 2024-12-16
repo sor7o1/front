@@ -73,6 +73,7 @@ export class ApiService {
   }
   // Peticiones de usuarios
   login(username, password): Observable<any> {
+    console.log(this.apiUrl)
     return this.http.post<any>(`${this.apiUrl}user/login`, {
       username: username,
       password: password,

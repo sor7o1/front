@@ -87,6 +87,7 @@ export class LoginComponent implements OnInit {
         }, error => {
 
           this.toastr.error(error['statusText'], "Error")
+          console.log(error)
 
         });
       } catch (e) {

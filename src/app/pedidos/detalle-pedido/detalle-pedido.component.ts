@@ -239,7 +239,7 @@ export class DetallePedidoComponent implements OnInit {
   generarFactura(_cai) {
 
 
-    this.gpdf.generarPDF(this.data['data'], this.data['pedido'], this.data['results'], _cai);
+    // this.gpdf.generarPDF(this.data['data'], this.data['pedido'], this.data['results'], _cai);
   }
   async selectCai() {
 
