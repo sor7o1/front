@@ -1,0 +1,153 @@
+<div class="container mat-typography">
+    <h1 mb-2>Detalles de factura</h1>
+
+    <!-- Reactive Form for Tipo de Doc -->
+    <mat-card class="container">
+        <mat-card-header>
+            <mat-card-title>Agregar detalle facturacion</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="two-column-layout">
+
+                <form [formGroup]="caiForm" >
+                    <div class="form-container">
+                        <div fxFlex="100%">
+                            <mat-form-field class="form-field-margin" appearance="fill">
+                                <mat-label>Numero de autorizacion</mat-label>
+                                <input matInput formControlName="numeroAutorizacion" required />
+                            </mat-form-field>
+                        </div>
+                       
+                        <div fxFlex="50%">
+                            <mat-form-field class="form-field-margin" appearance="fill">
+                                <mat-label>Fecha de inicio</mat-label>
+                                <input matInput [matDatepicker]="picker" formControlName="fechaInicio" required />
+                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+
+                            <mat-form-field class="form-field-margin">
+                                <mat-label>Fecha de vecimiento</mat-label>
+                                <input matInput [matDatepicker]="picker2" formControlName="fechaFin" required />
+                                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                                <mat-datepicker #picker2></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50%">
+                            <mat-form-field class="form-field-margin" appearance="fill">
+                                <mat-label>Rango inicial</mat-label>
+                                <input matInput type="number" (keyup)="changeRangeInitial($event)" formControlName="rangoInicial" required  />
+                            </mat-form-field>
+
+                            <mat-form-field class="form-field-margin">
+                                <mat-label>Rango final</mat-label>
+                                <input matInput (keyup)="changeRangeFinal($event)" type="number" formControlName="rangoFinal" required />
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="30%">
+                            <mat-form-field class="form-field-margin">
+                                <mat-label>Punto de emision</mat-label>
+                                <mat-select formControlName="idPuntoEmision">
+                                  @for (pte of puntosEmisions; track pte) {
+                                    <mat-option  (onSelectionChange)="change($event,1)"  [value]="{id:pte._id, corr:pte.correlativo}">{{pte.puntoEmision}}-{{pte.correlativo}}</mat-option>
+                                  }
+                                </mat-select>
+                              </mat-form-field>
+                            <mat-form-field class="form-field-margin">
+                                <mat-label>Establecimiento</mat-label>
+                                <mat-select formControlName="idEstablecimiento">
+                                  @for (pte of establecimientos; track pte) {
+                                    <mat-option  (onSelectionChange)="change($event,0)" [value]="{id:pte._id, corr:pte.correlativo}">{{pte.establecimiento}}-{{pte.correlativo}}</mat-option>
+                                  }
+                                </mat-select>
+                              </mat-form-field>
+                            <mat-form-field class="form-field-margin">
+                                <mat-label>Tipo de documento</mat-label>
+                                <mat-select formControlName="idTipoDocumento">
+                                  @for (pte of tiposDocumentos; track pte) {
+                                    <mat-option  (onSelectionChange)="change($event,2)" [value]="{id:pte._id, corr:pte.correlativo}">{{pte.tipoFactura}}-{{pte.correlativo}}</mat-option>
+                                  }
+                                </mat-select>
+                              </mat-form-field>
+                        </div>
+                        <div fxFlex="50%">
+                            <mat-form-field class="form-field-margin">
+                                <mat-label>Rango de factura</mat-label>
+                                <input matInput readonly formControlName="numeroFactura" required />
+                            </mat-form-field>
+                            <mat-slide-toggle [checked]="true"  class="form-field-margin"
+                                formControlName="activo">Activo</mat-slide-toggle>
+                        </div>
+                    </div>
+
+                </form>
+                <mat-card-actions>
+                    <button mat-raised-button color="primary" (click)="onSubmit()">
+                        Guardar
+                    </button>
+
+                </mat-card-actions>
+                <mat-card-footer>
+                    <!-- <mat-progress-bar mode="indeterminate"></mat-progress-bar> -->
+                </mat-card-footer>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+ <div class="container mt-2 mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let cai">
+                <button mat-icon-button color="primary" (click)="editCai(cai)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteCai(cai._id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="numeroAutorizacion">
+            <th mat-header-cell *matHeaderCellDef>Numero de autorizacion</th>
+            <td mat-cell *matCellDef="let cai">{{ cai.numeroAutorizacion }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="fechaInicio">
+            <th mat-header-cell *matHeaderCellDef>Fecha Inicio</th>
+            <td mat-cell *matCellDef="let cai">{{ cai.fechaInicio | date}}</td>
+        </ng-container>
+
+        
+        <ng-container matColumnDef="fechaFin">
+            <th mat-header-cell *matHeaderCellDef>Fecha Final</th>
+            <td mat-cell *matCellDef="let cai">{{ cai.fechaFin  | date}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="rangoInicial">
+            <th mat-header-cell *matHeaderCellDef>Rango Inicial</th>
+            <td mat-cell *matCellDef="let cai">{{ cai.rangoInicial}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="rangoFinal">
+            <th mat-header-cell *matHeaderCellDef>Rango Final</th>
+            <td mat-cell *matCellDef="let cai">{{ cai.rangoFinal}}</td>
+        </ng-container>
+
+
+        <!-- Activo Column -->
+        <ng-container matColumnDef="activo">
+            <th mat-header-cell *matHeaderCellDef>Activo</th>
+            <td mat-cell *matCellDef="let cai">
+                {{ cai.activo ? 'Sí' : 'No' }}
+            </td>
+        </ng-container>
+
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div> 

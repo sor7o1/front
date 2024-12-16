@@ -1,0 +1,19 @@
+/* Añade el espacio adecuado entre los campos del formulario */
+mat-form-field {
+    margin-bottom: 10px;
+    width: 100%;
+   }
+
+   mat-card{
+    width: 350px;
+
+    /* position: absolute; */
+    /* display: block; */
+    /* flex: 2;     */
+   }
+   .main-div{
+    /* height: 100vh; */
+    /* display: flex; */
+    justify-content: center;
+    align-items: center;
+  }

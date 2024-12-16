@@ -1,0 +1,12 @@
+
+<mat-dialog-content>
+    <p>Ingresa la cantidad</p>
+    <mat-form-field>
+        <mat-label>Cantidad</mat-label>
+        <input matInput type="number" [(ngModel)]="cantidad">
+    </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Cancelar</button>
+    <button mat-button [mat-dialog-close]="cantidad" cdkFocusInitial>Confirmar</button>
+</mat-dialog-actions>

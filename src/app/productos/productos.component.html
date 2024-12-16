@@ -1,0 +1,184 @@
+<app-products-client *ngIf="typeUser==3"></app-products-client>
+
+<mat-card class="container" *ngIf="typeUser==2 || typeUser==1">
+    <form [formGroup]="productoForm">
+        <mat-card-header>
+            <mat-card-title>Agregar producto</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-grid-list cols="1" rowHeight="75px">
+                <mat-grid-tile>
+                    <mat-form-field class="matformfield">
+                        <mat-label>Nombre</mat-label>
+                        <input matInput formControlName="nombre" />
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-form-field class="matformfield">
+                        <mat-label>Descripción</mat-label>
+                        <input matInput formControlName="descripcion" />
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <input id="uploadCaptureInputFile" class="form-control" (change)="onFileChange($event)"
+                        type="file" />
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <div *ngIf="base64Image" class="card" style="width: 10rem">
+                        <img [src]="base64Image" />
+                    </div>
+                    <button *ngIf="base64Image!=''" mat-raised-button (click)="resetImage()">
+                        Reset
+                    </button>
+                </mat-grid-tile>
+
+                <mat-grid-tile>
+                    <mat-form-field class="matformfield">
+                        <mat-label>Precio</mat-label>
+                        <input matInput id="precio" formControlName="precio" type="number" step="0.01" />
+                        <mat-error>El precio debe ser un número decimal con máximo 2
+                            decimales</mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-radio-group aria-label="Selecciona un elemento" formControlName="imp">
+                        <mat-radio-button *ngFor="let imp of imps"
+                            [value]="imp['valor']">{{imp['correlativo']}}</mat-radio-button>
+                    </mat-radio-group>
+
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-label style="margin-right: 15px">Disponible</mat-label>
+                    <mat-radio-group formControlName="disponible">
+                        <mat-label>Si</mat-label>
+                        <mat-radio-button checked value="true"></mat-radio-button>
+                        <mat-label>No</mat-label>
+                        <mat-radio-button value="false"></mat-radio-button>
+                    </mat-radio-group>
+                </mat-grid-tile>
+                <mat-grid-tile>
+                    <mat-card-actions align="start" class="cardactions">
+                        <button class="btn btn-danger" [disabled]="productoForm.invalid" (click)="cancelarUpdate()">
+                            Cancelar
+                        </button>
+                        <button *ngIf="!toUpdate" class="btn btn-success mr-2" [disabled]="productoForm.invalid"
+                            (click)="saveProducto()">
+                            Guardar
+                        </button>
+                        <button *ngIf="toUpdate" (click)="updateProducto()" class="btn btn-info mr-2"
+                            [disabled]="productoForm.invalid" type="submit">
+                            Actualizar
+                        </button>
+                    </mat-card-actions>
+                </mat-grid-tile>
+            </mat-grid-list>
+        </mat-card-content>
+        <mat-card-footer *ngIf="sendProducto">
+            <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        </mat-card-footer>
+    </form>
+</mat-card>
+
+<div class="mat-elevation-z8 productos" *ngIf="typeUser==2 || typeUser==1">
+    <div *ngIf="!dataCargada">
+
+        <mat-spinner style="margin:0 auto;"></mat-spinner>
+    </div>
+    <table *ngIf="dataCargada" mat-table [dataSource]="dataSource">
+        <!-- Nombre Column -->
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let element">
+                <button (click)="edit(element)" mat-mini-fab color="primary" matTooltip="Actualizar producto">
+                    <mat-icon>update</mat-icon>
+                </button>
+                <button (click)="openModel(element)" mat-mini-fab color="warn"
+                    aria-label="Example icon button with a heart icon" matTooltip="Eliminar producto">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef>Nombre</th>
+            <td mat-cell *matCellDef="let element">{{ element.nombre }}</td>
+        </ng-container>
+
+        <!-- Descripcion Column -->
+        <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef>Descripción</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.descripcion }}
+            </td>
+        </ng-container>
+
+        <!-- Disponible Column -->
+        <ng-container matColumnDef="disponible">
+            <th mat-header-cell *matHeaderCellDef>Disponible</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.disponible?'Si':'No'}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="idUser">
+            <th mat-header-cell *matHeaderCellDef>Usuario</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.idUser['nombre'] }}
+            </td>
+        </ng-container>
+
+        <!-- Imagen Column -->
+        <ng-container matColumnDef="imagen">
+            <th mat-header-cell *matHeaderCellDef>Imagen</th>
+            <td mat-cell *matCellDef="let element">
+                <img [src]="element['newimg']" width="250px" />
+            </td>
+        </ng-container>
+
+        <!-- Precio Column -->
+        <ng-container matColumnDef="precio">
+            <th mat-header-cell *matHeaderCellDef>Precio</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.precio['$numberDecimal'] }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="imp">
+            <th mat-header-cell *matHeaderCellDef>Impuesto</th>
+            <td mat-cell *matCellDef="let element">
+                {{element.imp?.$numberDecimal }}
+                <!-- {{ element?.imp['$numberDecimal'] || element['imp']}} -->
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>
+
+
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Eliminar producto</h4>
+                <button type="button" (click)="CloseModel()" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                Esta seguro que deseas eliminar el producto?
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" (click)="delete()" class="btn btn-success" data-bs-dismiss="modal">
+                    Confirmar
+                </button>
+                <button type="button" (click)="CloseModel()" class="btn btn-danger" data-bs-dismiss="modal">
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

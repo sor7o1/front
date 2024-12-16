@@ -1,0 +1,8 @@
+/* .item {
+    display: flex;
+    flex-direction: row;
+  } */
+
+  .item {
+    flex: 50%;
+  }

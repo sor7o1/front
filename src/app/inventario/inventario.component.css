@@ -1,0 +1,87 @@
+.btn.btn-info{
+    background-color: #6699CC;
+    color: white;
+}
+.btn.btn-success{
+    background-color: rgb(65, 252, 134);
+    color: white;
+}
+.btn.btn-success:hover{
+    background-color: rgb(65, 252, 134);
+    color: darkorange;
+}
+.form-field-margin {
+    margin-left: 20px;
+    width: 35%;
+}
+
+.mat-elevation-z8 {
+    overflow-x: auto;
+}
+
+.data-table {
+    width: 85%;
+
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.btn-btn-danger{
+    background-color: #d9534f;
+    color: white;
+}
+.btn.btn-info{
+    background-color: #5bc0de;
+    color: white;
+}
+.btn.btn-primary{
+    background-color: #0275d8;
+    color: white;
+}
+
+table {
+    width: 100%;
+  }
+  
+  tr.example-detail-row {
+    height: 0;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
+  
+  .example-element-row td {
+    border-bottom-width: 0;
+  }
+  
+  .example-element-detail {
+    overflow: hidden;
+    display: flex;
+  }
+  
+  .example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+  }
+  
+  .example-element-symbol {
+    font-weight: bold;
+    font-size: 40px;
+    line-height: normal;
+  }
+  
+  .example-element-description {
+    padding: 16px;
+  }
+  
+  .example-element-description-attribution {
+    opacity: 0.5;
+  }

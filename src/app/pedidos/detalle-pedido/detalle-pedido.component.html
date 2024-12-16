@@ -1,0 +1,104 @@
+<div class="container mx-auto">
+    <table mat-table [dataSource]="data['data']" class="mat-elevation-z8">
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let element">
+                <button
+                    *ngIf="!element.confirmado && typeUser==3"
+                    mat-mini-fab
+                    color="primary"
+                    (click)="edit(element)"
+                >
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button
+                    *ngIf=" !element.confirmado && (typeUser==2 || typeUser==1)"
+                    mat-mini-fab
+                    color="success"
+                    (click)="updateEstado(element)"
+                >
+                    <mat-icon>check_circle</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef>Nombre Prod.</th>
+            <td mat-cell *matCellDef="let element">{{element.nombre}}</td>
+        </ng-container>
+        <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef>descripcion</th>
+            <td mat-cell *matCellDef="let element">{{element.descripcion}}</td>
+        </ng-container>
+        <ng-container matColumnDef="cantidad">
+            <th mat-header-cell *matHeaderCellDef>Cantidad</th>
+            <td mat-cell *matCellDef="let element">{{element.cantidad}}</td>
+        </ng-container>
+        <ng-container matColumnDef="subtotal">
+            <th mat-header-cell *matHeaderCellDef>Subtotal</th>
+            <td mat-cell *matCellDef="let element">
+                {{(element.subtotal['$numberDecimal'] || element.subtotal) |
+                currency:'HNL'}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="impuesto">
+            <th mat-header-cell *matHeaderCellDef>Impuesto</th>
+            <td mat-cell *matCellDef="let element">
+                {{(element.impuesto['$numberDecimal'] || element['impuesto']) |
+                currency:'HNL'}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="total">
+            <th mat-header-cell *matHeaderCellDef>Total</th>
+            <td mat-cell *matCellDef="let element">
+                {{(element.total['$numberDecimal'] || element['total']) |
+                currency:'HNL'}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="confirmado">
+            <th mat-header-cell *matHeaderCellDef>Confirmado</th>
+            <td mat-cell *matCellDef="let element">
+                {{element.confirmado? 'Si':'No'}}
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="totalAmountTitle">
+            <td
+                mat-footer-cell
+                *matFooterCellDef
+                class="mobile-hide bold"
+                colspan="2"
+            >
+                Total: {{total | currency:'HNL'}}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="emptyFooter">
+            <mat-footer-cell
+                *matFooterCellDef
+                class="mobile-hide"
+            ></mat-footer-cell>
+        </ng-container>
+
+        <mat-footer-row
+            *matFooterRowDef="displayedTotalColumns"
+            class="totalRow"
+        ></mat-footer-row>
+        <tr mat-header-row *matHeaderRowDef="headersColum"></tr>
+        <tr mat-row *matRowDef="let row; columns: headersColum;"></tr>
+    </table>
+</div>
+<mat-dialog-actions>
+    <button mat-button color="warn" mat-dialog-close>Cerrar</button>
+    <button mat-button color="warn" (click)="facturado?pedidoFacturado():selectCai()">
+        <fa-icon [icon]="faPdf"></fa-icon>
+    </button>
+    <!-- <button mat-button color="info" (click)="confirmarFactura()" ><mat-icon>pdf</mat-icon> Generar factura</button> -->
+    <button
+        mat-button
+        *ngIf="editar"
+        color="primary"
+        [mat-dialog-close]="data"
+        cdkFocusInitial
+    >
+        Confirmar
+    </button>
+</mat-dialog-actions>

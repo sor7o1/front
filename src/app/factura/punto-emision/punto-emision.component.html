@@ -1,0 +1,110 @@
+<div class="container mat-typography">
+    <h1>Puntos de Emisión</h1>
+
+    <!-- Reactive Form for Punto Emision -->
+    <mat-card class="container">
+        <mat-card-header>
+            <mat-card-title>Agregar punto de emision</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="two-column-layout">
+                <!-- Reactive Form for Punto Emision -->
+                <form [formGroup]="puntoEmisionForm" >
+                    <div class="form-container">
+                        <div fxFlex="50%">
+
+                            <mat-form-field class="form-field-margin" appearance="fill">
+                                <mat-label>Punto Emisión</mat-label>
+                                <input matInput formControlName="puntoEmision" required />
+                            </mat-form-field>
+
+                            <mat-form-field class="form-field-margin" appearance="fill">
+                                <mat-label>Descripción</mat-label>
+                                <input matInput formControlName="descripcion" required />
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50%">
+
+                            <mat-form-field class="form-field-margin">
+                                <mat-label>Correlativo</mat-label>
+                                <input matInput formControlName="correlativo" required />
+                            </mat-form-field>
+                            <mat-slide-toggle [checked]="true"  class="form-field-margin"
+                                formControlName="activo">Activo</mat-slide-toggle>
+                        </div>
+                    </div>
+
+                </form>
+                <mat-card-actions>
+                    <button mat-raised-button color="primary" (click)="onSubmit()">
+                        Guardar
+                    </button>
+
+                </mat-card-actions>
+                <mat-card-footer>
+                    <!-- <mat-progress-bar mode="indeterminate"></mat-progress-bar> -->
+                </mat-card-footer>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+<div class="container mt-2 mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+        <!-- Punto Emision Column -->
+        
+        <ng-container matColumnDef="acciones">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let puntoEmision">
+                <button mat-icon-button color="primary" (click)="editPuntoEmision(puntoEmision)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deletePuntoEmision(puntoEmision._id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="puntoEmision">
+            <th mat-header-cell *matHeaderCellDef>Punto Emisión</th>
+            <td mat-cell *matCellDef="let puntoEmision">{{ puntoEmision.puntoEmision }}</td>
+        </ng-container>
+
+        <!-- Descripcion Column -->
+        <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef>Descripción</th>
+            <td mat-cell *matCellDef="let puntoEmision">
+                {{ puntoEmision.descripcion }}
+            </td>
+        </ng-container>
+
+        <!-- Correlativo Column -->
+        <ng-container matColumnDef="correlativo">
+            <th mat-header-cell *matHeaderCellDef>Correlativo</th>
+            <td mat-cell *matCellDef="let puntoEmision">
+                {{ puntoEmision.correlativo }}
+            </td>
+        </ng-container>
+
+        <!-- Compania Column -->
+        <ng-container matColumnDef="idCompania">
+            <th mat-header-cell *matHeaderCellDef>Compañía</th>
+            <td mat-cell *matCellDef="let puntoEmision">
+                {{ puntoEmision.idCompania }}
+            </td>
+        </ng-container>
+
+        <!-- Activo Column -->
+        <ng-container matColumnDef="activo">
+            <th mat-header-cell *matHeaderCellDef>Activo</th>
+            <td mat-cell *matCellDef="let puntoEmision">
+                {{ puntoEmision.activo ? 'Sí' : 'No' }}
+            </td>
+        </ng-container>
+
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div>

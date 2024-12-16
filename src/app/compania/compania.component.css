@@ -1,0 +1,31 @@
+body{
+    margin: 15px;
+}
+.data-table{
+    width: 85%;
+
+    margin-left: 20px;
+    margin-right: 20px;
+}
+.card{
+    width: 90%;
+
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+}
+.buscar{
+    width: 45%;
+    /* margin: 20px; */
+    margin-right: 20px;
+    margin-left: 20px;
+
+}
+.matformfield{
+    width:100%;
+    /* margin-right: 15px;
+    margin-bottom: 15px;
+    margin-top: 15px; */
+    margin: 15px 15px 15px 15px;
+}
+.material-icons.color_green { color: #74ff74; }

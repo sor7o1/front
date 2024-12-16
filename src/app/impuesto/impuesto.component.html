@@ -1,0 +1,87 @@
+<div class="container mat-typography">
+    <h1 mb-2>Impuestos</h1>
+
+    <!-- Reactive Form for Tipo de Doc -->
+    <mat-card class="container">
+        <mat-card-header>
+            <mat-card-title>Agregar impuesto</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <div class="two-column-layout">
+
+                <form [formGroup]="impuestoForm" >
+                    <div class="form-container">
+                        <div fxFlex="50%">
+                            <mat-form-field class="form-field-margin" appearance="fill">
+                                <mat-label>Descripcion</mat-label>
+                                <input matInput formControlName="nombre" required />
+                            </mat-form-field>
+                            <mat-form-field class="form-field-margin" appearance="fill">
+                                <mat-label>Correlativo</mat-label>
+                                <input matInput formControlName="correlativo" required />
+                            </mat-form-field>
+                        </div>
+                        <div fxFlex="50%">
+                            <mat-form-field class="form-field-margin" appearance="fill">
+                                <mat-label>Valor</mat-label>
+                                <input matInput formControlName="valor" required />
+                            </mat-form-field>
+                        </div>
+
+                    </div>
+
+                </form>
+                <mat-card-actions>
+                    <button mat-raised-button color="primary" (click)="saveImpuestos()">
+                        Guardar
+                    </button>
+
+                </mat-card-actions>
+                <mat-card-footer>
+                    <!-- <mat-progress-bar mode="indeterminate"></mat-progress-bar> -->
+                </mat-card-footer>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+
+ <div class="container mt-2 mat-elevation-z8">
+    <table mat-table [dataSource]="dataSource">
+
+        <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef>Acciones</th>
+            <td mat-cell *matCellDef="let cai">
+                <button mat-icon-button color="primary" (click)="editCai(cai)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn" (click)="deleteImpuesto(cai._id)">
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </td>
+        </ng-container>
+
+        <ng-container matColumnDef="nombre">
+            <th mat-header-cell *matHeaderCellDef>Nombre imp.</th>
+            <td mat-cell *matCellDef="let imp">{{ imp.nombre }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="correlativo">
+            <th mat-header-cell *matHeaderCellDef>Correlativo imp.</th>
+            <td mat-cell *matCellDef="let imp">{{ imp.correlativo }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="valor">
+            <th mat-header-cell *matHeaderCellDef>Valor imp.</th>
+            <td mat-cell *matCellDef="let imp">{{ imp.valor }}</td>
+        </ng-container>
+
+
+
+
+
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+</div> 

@@ -1,0 +1,36 @@
+<div class="container">
+    <div *ngIf="!dataCargada">
+
+        <mat-spinner style="margin:0 auto;"></mat-spinner>
+    </div>
+
+    <div *ngIf="dataCargada">
+        <div class="card" *ngFor="let item of productosBycompanie;index as idx">
+            <div class="card-header">{{item['nameCompanie']}}</div>
+            <div class="card-body">
+                <div class="row container">
+                    <div class="card col-2 mx-auto" style="width: 18rem"
+                        *ngFor="let itemP of item['data'];index as idx2">
+                        <img class="card-img-top" [src]="itemP.newImage " />
+                        <div class="card-body">
+                            <h5 class="card-title">{{itemP['nombre']}}</h5>
+                            <p class="card-text">
+                                Descripcion: {{itemP['descripcion']}}.
+                            </p>
+                            <p class="card-text">
+                                Precio: Lps.{{itemP['precio']['$numberDecimal']}}
+                            </p>
+                        </div>
+
+                        <div class="card-body">
+                            <button class="btn btn-success" (click)="saveTemporaryShop(itemP)">
+                                <mat-icon>add_shopping_cart</mat-icon>
+                            </button>
+                            <!-- <input class="form-control form-control-rounded ml-2 mt-2" type="number" (change)="setValue($event)" placeholder="Ingresar cantidad"> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

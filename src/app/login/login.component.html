@@ -1,0 +1,27 @@
+<div class="main-div">
+  <mat-card class="mx-auto position-absolute top-50 start-50 translate-middle">
+    <mat-card-header>Iniciar sesion</mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="align-item-center">
+        <mat-form-field>
+          <mat-label>Correo o nombre de usuario</mat-label>
+          <input matInput formControlName="email" type="text" />
+        </mat-form-field>
+
+        <mat-form-field>
+          <mat-label>Contraseña</mat-label>
+          <input matInput formControlName="password" type="password" />
+          <mat-error *ngIf="loginForm.get('password')?.invalid">
+            Por favor, ingrese una contraseña válida.
+          </mat-error>
+        </mat-form-field>
+
+        <button [disabled]="login" class="mx-auto  top-100 start-50 translate-middle" mat-raised-button color="primary"
+          type="submit">Iniciar sesión</button>
+      </form>
+      <mat-card-footer *ngIf="login">
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      </mat-card-footer>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,0 +1,181 @@
+<mat-toolbar color="primary" *ngIf="headerVisible">
+    <mat-toolbar-row>
+        <button (click)="drawer.toggle();opened=!opened" mat-icon-button>
+            <mat-icon>menu</mat-icon>
+        </button>
+        <span>
+            <img src="../assets/logo.png" width="60px" height="60px">
+        </span>
+        <span class="example-spacer"></span>
+
+        <button (click)="openModel()" mat-icon-button>
+            <mat-icon
+                aria-hidden="false"
+                matBadgeColor="accent"
+                matBadge="{{badgeCounter}}"
+                [matBadgeHidden]="badgevisible"
+                matBadgeSize="small"
+                >shopping_cart</mat-icon
+            >
+        </button>
+        <button (click)="logout()" mat-icon-button>
+            <mat-icon aria-hidden="false">logout</mat-icon>
+        </button>
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-drawer-container autosize>
+    <mat-drawer #drawer [opened]="opened" mode="side" position="start">
+        <mat-nav-list>
+            <mat-list-item>
+                <a href="" routerLink="/dashboard"></a>
+                <button mat-button>
+                    <mat-icon>dashboard</mat-icon> Dashboard
+                </button>
+            </mat-list-item>
+            <mat-list-item>
+                <a routerLink="/company">
+                    <button mat-button>
+                        <mat-icon>listall</mat-icon> Compañias
+                    </button>
+                </a>
+            </mat-list-item>
+            <mat-list-item>
+                <a routerLink="/impuesto">
+                    <button mat-button>
+                        <mat-icon>attach_money</mat-icon> Impuestos
+                    </button>
+                </a>
+            </mat-list-item>
+            <mat-list-item>
+                <button routerLink="/clientes" mat-button>
+                    <mat-icon>supervised_user_circle</mat-icon> Clientes
+                </button>
+            </mat-list-item>
+            <mat-list-item
+                (click)="showSubmenu = !showSubmenu; isShowing= !isShowing"
+                class="parent"
+            >
+                <span class="full-width" *ngIf="isExpanded || isShowing"
+                    ><mat-icon>list_alt</mat-icon> Facturas</span
+                >
+            </mat-list-item>
+            <div
+                class="submenu"
+                [ngClass]="{'expanded' : showSubmenu}"
+                *ngIf="isShowing && isExpanded"
+            >
+                <mat-list-item>
+                    <button routerLink="/factura/facturas" mat-button>
+                        <mat-icon>list</mat-icon> Facturas
+                    </button>
+                </mat-list-item>
+                <mat-list-item>
+                    <button routerLink="/factura/cai" mat-button>
+                        <mat-icon>list</mat-icon> Cai
+                    </button>
+                </mat-list-item>
+                <mat-list-item>
+                    <button routerLink="/factura/puntoemision" mat-button>
+                        <mat-icon>home</mat-icon> Punto Emision
+                    </button>
+                </mat-list-item>
+                <mat-list-item>
+                    <button
+                        routerLink="/factura/establecimientoFactura"
+                        mat-button
+                    >
+                        <mat-icon>shopping_cart</mat-icon> Establecimiento
+                    </button>
+                </mat-list-item>
+                <mat-list-item>
+                    <button routerLink="/factura/tipoFactura" mat-button>
+                        <mat-icon>folder</mat-icon> Tipo de documento
+                    </button>
+                </mat-list-item>
+            </div>
+
+            <mat-list-item>
+                <button routerLink="/productos" mat-button>
+                    <mat-icon>inventory</mat-icon> Productos
+                </button>
+            </mat-list-item>
+            <mat-list-item>
+                <button routerLink="/inventario" mat-button>
+                    <mat-icon>listall</mat-icon> Inventario
+                </button>
+            </mat-list-item>
+            <mat-list-item>
+                <button mat-button routerLink="/pedidos">
+                    <mat-icon>analytics</mat-icon> Pedidos
+                </button>
+            </mat-list-item>
+        </mat-nav-list>
+    </mat-drawer>
+
+    <mat-drawer-content>
+        <div style="text-align: start; min-height: 600px">
+            <!-- <app-loading *ngIf="isLoading"></app-loading> -->
+
+            <router-outlet (activate)="onOutletLoaded($event)"> </router-outlet>
+        </div>
+    </mat-drawer-content>
+</mat-drawer-container>
+<mat-toolbar color="primary">
+    <mat-toolbar-row>
+        <div class="mx-auto text-center">
+            <div class="row">Derechos Reservados &copy;asodev</div>
+        </div>
+        <!-- <div class="mx-auto">Copyrigth asodev</div> -->
+    </mat-toolbar-row>
+</mat-toolbar>
+
+<!-- The Modal -->
+<div
+    class="modal bd-example-modal-lg"
+    id="myModalPedido"
+    tabindex="-1"
+    role="dialog"
+    aria-labelledby="myLargeModalLabel"
+    aria-hidden="true"
+>
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">Confirmar pedido</h4>
+                <button
+                    type="button"
+                    (click)="CloseModel()"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+            </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <app-car-pedido></app-car-pedido>
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button
+                    type="button"
+                    (click)="confirmar()"
+                    class="btn btn-success"
+                    data-bs-dismiss="modal"
+                >
+                    Confirmar
+                </button>
+                <button
+                    type="button"
+                    (click)="CloseModel()"
+                    class="btn btn-danger"
+                    data-bs-dismiss="modal"
+                >
+                    Close
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
